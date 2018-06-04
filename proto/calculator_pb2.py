@@ -13,14 +13,16 @@ from google.protobuf import descriptor_pb2
 _sym_db = _symbol_database.Default()
 
 
+from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='proto/calculator.proto',
   package='',
   syntax='proto3',
-  serialized_pb=_b('\n\x16proto/calculator.proto\"\x17\n\x06Number\x12\r\n\x05value\x18\x01 \x01(\x02\x32.\n\nCalculator\x12 \n\nSquareRoot\x12\x07.Number\x1a\x07.Number\"\x00\x62\x06proto3')
-)
+  serialized_pb=_b('\n\x16proto/calculator.proto\x1a\x1bgoogle/protobuf/empty.proto\"\x17\n\x06Number\x12\r\n\x05value\x18\x01 \x01(\x02\x32\xa8\x01\n\nCalculator\x12 \n\nSquareRoot\x12\x07.Number\x1a\x07.Number\"\x00\x12\x34\n\rReceiveEvents\x12\x16.google.protobuf.Empty\x1a\x07.Number\"\x00\x30\x01\x12\"\n\nSendEvents\x12\x07.Number\x1a\x07.Number\"\x00(\x01\x12\x1e\n\x04\x43hat\x12\x07.Number\x1a\x07.Number\"\x00(\x01\x30\x01\x62\x06proto3')
+  ,
+  dependencies=[google_dot_protobuf_dot_empty__pb2.DESCRIPTOR,])
 
 
 
@@ -51,8 +53,8 @@ _NUMBER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=26,
-  serialized_end=49,
+  serialized_start=55,
+  serialized_end=78,
 )
 
 DESCRIPTOR.message_types_by_name['Number'] = _NUMBER
@@ -73,13 +75,40 @@ _CALCULATOR = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   options=None,
-  serialized_start=51,
-  serialized_end=97,
+  serialized_start=81,
+  serialized_end=249,
   methods=[
   _descriptor.MethodDescriptor(
     name='SquareRoot',
     full_name='Calculator.SquareRoot',
     index=0,
+    containing_service=None,
+    input_type=_NUMBER,
+    output_type=_NUMBER,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='ReceiveEvents',
+    full_name='Calculator.ReceiveEvents',
+    index=1,
+    containing_service=None,
+    input_type=google_dot_protobuf_dot_empty__pb2._EMPTY,
+    output_type=_NUMBER,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='SendEvents',
+    full_name='Calculator.SendEvents',
+    index=2,
+    containing_service=None,
+    input_type=_NUMBER,
+    output_type=_NUMBER,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='Chat',
+    full_name='Calculator.Chat',
+    index=3,
     containing_service=None,
     input_type=_NUMBER,
     output_type=_NUMBER,
@@ -115,6 +144,21 @@ try:
           request_serializer=Number.SerializeToString,
           response_deserializer=Number.FromString,
           )
+      self.ReceiveEvents = channel.unary_stream(
+          '/Calculator/ReceiveEvents',
+          request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+          response_deserializer=Number.FromString,
+          )
+      self.SendEvents = channel.stream_unary(
+          '/Calculator/SendEvents',
+          request_serializer=Number.SerializeToString,
+          response_deserializer=Number.FromString,
+          )
+      self.Chat = channel.stream_stream(
+          '/Calculator/Chat',
+          request_serializer=Number.SerializeToString,
+          response_deserializer=Number.FromString,
+          )
 
 
   class CalculatorServicer(object):
@@ -128,11 +172,47 @@ try:
       context.set_details('Method not implemented!')
       raise NotImplementedError('Method not implemented!')
 
+    def ReceiveEvents(self, request, context):
+      # missing associated documentation comment in .proto file
+      pass
+      context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+      context.set_details('Method not implemented!')
+      raise NotImplementedError('Method not implemented!')
+
+    def SendEvents(self, request_iterator, context):
+      """Return the total count of event
+      """
+      context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+      context.set_details('Method not implemented!')
+      raise NotImplementedError('Method not implemented!')
+
+    def Chat(self, request_iterator, context):
+      # missing associated documentation comment in .proto file
+      pass
+      context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+      context.set_details('Method not implemented!')
+      raise NotImplementedError('Method not implemented!')
+
 
   def add_CalculatorServicer_to_server(servicer, server):
     rpc_method_handlers = {
         'SquareRoot': grpc.unary_unary_rpc_method_handler(
             servicer.SquareRoot,
+            request_deserializer=Number.FromString,
+            response_serializer=Number.SerializeToString,
+        ),
+        'ReceiveEvents': grpc.unary_stream_rpc_method_handler(
+            servicer.ReceiveEvents,
+            request_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+            response_serializer=Number.SerializeToString,
+        ),
+        'SendEvents': grpc.stream_unary_rpc_method_handler(
+            servicer.SendEvents,
+            request_deserializer=Number.FromString,
+            response_serializer=Number.SerializeToString,
+        ),
+        'Chat': grpc.stream_stream_rpc_method_handler(
+            servicer.Chat,
             request_deserializer=Number.FromString,
             response_serializer=Number.SerializeToString,
         ),
@@ -154,6 +234,18 @@ try:
       # missing associated documentation comment in .proto file
       pass
       context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
+    def ReceiveEvents(self, request, context):
+      # missing associated documentation comment in .proto file
+      pass
+      context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
+    def SendEvents(self, request_iterator, context):
+      """Return the total count of event
+      """
+      context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
+    def Chat(self, request_iterator, context):
+      # missing associated documentation comment in .proto file
+      pass
+      context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
 
 
   class BetaCalculatorStub(object):
@@ -169,6 +261,19 @@ try:
       pass
       raise NotImplementedError()
     SquareRoot.future = None
+    def ReceiveEvents(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
+      # missing associated documentation comment in .proto file
+      pass
+      raise NotImplementedError()
+    def SendEvents(self, request_iterator, timeout, metadata=None, with_call=False, protocol_options=None):
+      """Return the total count of event
+      """
+      raise NotImplementedError()
+    SendEvents.future = None
+    def Chat(self, request_iterator, timeout, metadata=None, with_call=False, protocol_options=None):
+      # missing associated documentation comment in .proto file
+      pass
+      raise NotImplementedError()
 
 
   def beta_create_Calculator_server(servicer, pool=None, pool_size=None, default_timeout=None, maximum_timeout=None):
@@ -178,12 +283,21 @@ try:
     file not marked beta) for all further purposes. This function was
     generated only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0"""
     request_deserializers = {
+      ('Calculator', 'Chat'): Number.FromString,
+      ('Calculator', 'ReceiveEvents'): google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+      ('Calculator', 'SendEvents'): Number.FromString,
       ('Calculator', 'SquareRoot'): Number.FromString,
     }
     response_serializers = {
+      ('Calculator', 'Chat'): Number.SerializeToString,
+      ('Calculator', 'ReceiveEvents'): Number.SerializeToString,
+      ('Calculator', 'SendEvents'): Number.SerializeToString,
       ('Calculator', 'SquareRoot'): Number.SerializeToString,
     }
     method_implementations = {
+      ('Calculator', 'Chat'): face_utilities.stream_stream_inline(servicer.Chat),
+      ('Calculator', 'ReceiveEvents'): face_utilities.unary_stream_inline(servicer.ReceiveEvents),
+      ('Calculator', 'SendEvents'): face_utilities.stream_unary_inline(servicer.SendEvents),
       ('Calculator', 'SquareRoot'): face_utilities.unary_unary_inline(servicer.SquareRoot),
     }
     server_options = beta_implementations.server_options(request_deserializers=request_deserializers, response_serializers=response_serializers, thread_pool=pool, thread_pool_size=pool_size, default_timeout=default_timeout, maximum_timeout=maximum_timeout)
@@ -197,12 +311,21 @@ try:
     file not marked beta) for all further purposes. This function was
     generated only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0"""
     request_serializers = {
+      ('Calculator', 'Chat'): Number.SerializeToString,
+      ('Calculator', 'ReceiveEvents'): google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+      ('Calculator', 'SendEvents'): Number.SerializeToString,
       ('Calculator', 'SquareRoot'): Number.SerializeToString,
     }
     response_deserializers = {
+      ('Calculator', 'Chat'): Number.FromString,
+      ('Calculator', 'ReceiveEvents'): Number.FromString,
+      ('Calculator', 'SendEvents'): Number.FromString,
       ('Calculator', 'SquareRoot'): Number.FromString,
     }
     cardinalities = {
+      'Chat': cardinality.Cardinality.STREAM_STREAM,
+      'ReceiveEvents': cardinality.Cardinality.UNARY_STREAM,
+      'SendEvents': cardinality.Cardinality.STREAM_UNARY,
       'SquareRoot': cardinality.Cardinality.UNARY_UNARY,
     }
     stub_options = beta_implementations.stub_options(host=host, metadata_transformer=metadata_transformer, request_serializers=request_serializers, response_deserializers=response_deserializers, thread_pool=pool, thread_pool_size=pool_size)

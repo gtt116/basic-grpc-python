@@ -1,9 +1,18 @@
 syntax = "proto3";
 
+import "google/protobuf/empty.proto";
+
 message Number {
     float value = 1;
 }
 
 service Calculator {
     rpc SquareRoot(Number) returns (Number) {}
+
+    rpc ReceiveEvents(google.protobuf.Empty) returns (stream Number ) {}
+
+    // Return the total count of event
+    rpc SendEvents(stream Number) returns (Number) {}
+
+    rpc Chat(stream Number) returns (stream Number) {}
 }
