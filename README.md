@@ -7,24 +7,10 @@ For more details, read the accompanying [blog post](https://engineering.semantic
 ## Quickstart
 
 ```shell
-git clone https://github.com/ramananbalakrishnan/basic-grpc-python
+git clone https://github.com/gtt116/basic-grpc-python
 cd basic-grpc-python
 pip install -r requirements.txt
-python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. calculator.proto
+make proto
 python server.py
 python client.py
-```
-
-## File reference
-```
-basic-grpc-python/
-├── calculator.py          # module containing a function
-|
-├── calculator.proto       # protobuf definition file
-|
-├── calculator_pb2_grpc.py # generated class for server/client
-├── calculator_pb2.py      # generated class for message
-|
-├── server.py              # a server to expose the function
-└── client.py              # a sample client
 ```
