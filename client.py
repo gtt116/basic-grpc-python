@@ -35,10 +35,38 @@ def chat(stub):
         print("Receive response %s" % resp.value)
 
 
-def main():
+def get_insecure_stub():
     channel = grpc.insecure_channel('localhost:50051')
     stub = calculator_pb2_grpc.CalculatorStub(channel)
+    return stub
 
+
+def get_secure_stub():
+    cre = get_server_credential()
+    if cre is not None:
+        channel = grpc.secure_channel('localhost:50050', cre)
+        stub = calculator_pb2_grpc.CalculatorStub(channel)
+        return stub
+    return None
+
+
+def get_server_credential():
+    try:
+        with open("server.crt", "rb") as f:
+            return grpc.ssl_channel_credentials(root_certificates=f.read())
+    except IOError:
+        return None
+
+
+def main():
+    stub = get_insecure_stub()
+    squareRoot(stub)
+    sendEvent(stub)
+    receiveEvents(stub)
+    chat(stub)
+
+    print("Now using secure channel")
+    stub = get_secure_stub()
     squareRoot(stub)
     sendEvent(stub)
     receiveEvents(stub)

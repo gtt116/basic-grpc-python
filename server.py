@@ -30,13 +30,31 @@ class CalculatorServicer(calculator_pb2_grpc.CalculatorServicer):
             yield calculator_pb2.Number(value=(req.value + 11))
 
 
+def get_credentials():
+    try:
+        with open('server.key', 'rb') as f:
+            private_key = f.read()
+
+        with open('server.crt', 'rb') as f:
+            public_key = f.read()
+    except IOError:
+        return None
+
+    return grpc.ssl_server_credentials(((private_key, public_key, ), ))
+
+
 def main():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
 
     calculator_pb2_grpc.add_CalculatorServicer_to_server(CalculatorServicer(), server)
 
-    print('Starting server. Listening on port 50051.')
+    print('Starting server. Listening on insecure port 50051.')
     server.add_insecure_port('[::]:50051')
+
+    credentials = get_credentials()
+    if credentials:
+        print('Starting server. Listening on secure port 50050.')
+        server.add_secure_port('[::]:50050', credentials)
     server.start()
 
     try:
